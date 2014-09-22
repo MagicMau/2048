@@ -55,14 +55,25 @@ HTMLActuator.prototype.addTile = function (tile) {
   var positionClass = this.positionClass(position);
 
   // We can't use classlist because it somehow glitches when replacing classes
-  var classes = ["tile", "tile-" + tile.value, positionClass];
+  var classes = ["tile", "tile-" + tile.value * 10000, positionClass];
 
-  if (tile.value > 2048) classes.push("tile-super");
+  if (tile.value > 50) classes.push("tile-super");
 
   this.applyClasses(wrapper, classes);
 
   inner.classList.add("tile-inner");
-  inner.textContent = tile.value;
+  
+  // 50 -> 25 -> 12.5 (12 1/2) -> 6.25 (6 1/4) -> 3.125 (3 1/6) -> 1.5625 (1 9/16)
+  var text = "";
+  switch (tile.value) {
+      case 1.5625: text = "1 <div class='fraction'><span class='top'>9</span><span class='bottom'>16</span></div>"; break;
+      case 3.125: text = "3 <div class='fraction'><span class='top'>1</span><span class='bottom'>6</span></div>"; break;
+      case 6.25: text = "6 <div class='fraction'><span class='top'>1</span><span class='bottom'>4</span></div>"; break;
+      case 12.5: text = "12 <div class='fraction'><span class='top'>1</span><span class='bottom'>2</span></div>"; break;
+      default: text = tile.value;
+  }
+
+  inner.innerHTML = text;
 
   if (tile.previousPosition) {
     // Make sure that the tile gets rendered in the previous position first
@@ -126,7 +137,7 @@ HTMLActuator.prototype.updateBestScore = function (bestScore) {
 
 HTMLActuator.prototype.message = function (won) {
   var type    = won ? "game-won" : "game-over";
-  var message = won ? "You win!" : "Game over!";
+  var message = won ? "Happy 50th Birthday, Tonny!" : "Game over!";
 
   this.messageContainer.classList.add(type);
   this.messageContainer.getElementsByTagName("p")[0].textContent = message;

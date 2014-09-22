@@ -1,3 +1,7 @@
+// changing this into the 50 game, so tiles will be
+
+// 50 -> 25 -> 12.5 (12 1/2) -> 6.25 (6 1/4) -> 3.125 (3 1/6) -> 1.5625 (1 9/16)
+
 function GameManager(size, InputManager, Actuator, StorageManager) {
   this.size           = size; // Size of the grid
   this.inputManager   = new InputManager;
@@ -66,9 +70,10 @@ GameManager.prototype.addStartTiles = function () {
 };
 
 // Adds a tile in a random position
+// 50 -> 25 -> 12.5 (12 1/2) -> 6.25 (6 1/4) -> 3.125 (3 1/6) -> 1.5625 (1 9/16)
 GameManager.prototype.addRandomTile = function () {
   if (this.grid.cellsAvailable()) {
-    var value = Math.random() < 0.9 ? 2 : 4;
+    var value = Math.random() < 0.9 ? 1.5625 : 3.125;
     var tile = new Tile(this.grid.randomAvailableCell(), value);
 
     this.grid.insertTile(tile);
@@ -166,8 +171,8 @@ GameManager.prototype.move = function (direction) {
           // Update the score
           self.score += merged.value;
 
-          // The mighty 2048 tile
-          if (merged.value === 2048) self.won = true;
+          // The mighty 50 tile
+          if (merged.value === 50) self.won = true;
         } else {
           self.moveTile(tile, positions.farthest);
         }

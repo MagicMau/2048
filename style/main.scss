@@ -209,7 +209,7 @@ hr {
       p {
         font-size: 60px;
         font-weight: bold;
-        height: 60px;
+        height: 80px;
         line-height: 60px;
         margin-top: 222px;
         // height: $field-width;
@@ -322,7 +322,25 @@ hr {
     font-weight: bold;
     z-index: 10;
 
-    font-size: 55px;
+    font-size: 45px;
+
+    .fraction {
+        font-size: 30px;
+        padding: 0 5px;
+        display: inline-block;
+        line-height: 1;
+        text-align: center;
+        margin-left: -10px;
+
+        .top, .bottom {
+            padding: 0 5px;
+        }
+
+        .bottom {
+            border-top: 0.1em solid;
+            display: block;
+        }
+    }
   }
 
   // Movement transition
@@ -331,9 +349,9 @@ hr {
   -moz-transition-property: -moz-transform;
   transition-property: transform;
 
-  $base: 2;
+  $base: 1.5625;
   $exponent: 1;
-  $limit: 11;
+  $limit: 6;
 
   // Colors for all 11 states, false = no special color
   $special-colors: false false, // 2
@@ -350,9 +368,9 @@ hr {
 
   // Build tile colors
   @while $exponent <= $limit {
-    $power: pow($base, $exponent);
+    $power: pow(2, $exponent - 1) * $base;
 
-    &.tile-#{$power} .tile-inner {
+    &.tile-#{$power * 10000} .tile-inner {
       // Calculate base background color
       $gold-percent: ($exponent - 1) / ($limit - 1) * 100;
       $mixed-background: mix($tile-gold-color, $tile-color, $gold-percent);
@@ -531,7 +549,11 @@ hr {
 
   // Rest of the font-size adjustments in the tile class
   .tile .tile-inner {
-    font-size: 35px;
+    font-size: 25px;
+
+    .fraction {
+        font-size: 15px;
+    }
   }
 
   .game-message {
